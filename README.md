@@ -19,7 +19,6 @@ Welcome to the Next.js Prisma CRUD project! This repository hosts a fundamental 
 - ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-%23006AFF.svg?style=flat&logo=tailwind-css&logoColor=white)
 - ![Prisma](https://img.shields.io/badge/Prisma-%234F46E5.svg?style=flat&logo=prisma&logoColor=white)
 - ![Vercel](https://img.shields.io/badge/Vercel-%23000000.svg?style=flat&logo=vercel&logoColor=white)
-- ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-%x316192.svg?style=flat&logo=postgresql&logoColor=white)
 - ![LiteSQL](https://img.shields.io/badge/LiteSQL-%23ECEFF1.svg?style=flat&logo=sqlite&logoColor=%2336A7E2)
 
 ## 🌐 Socials:
