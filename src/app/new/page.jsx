@@ -1,24 +1,46 @@
 'use client'
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 
-function NewPage() {
+function NewPage({params}) {
 
   const router = useRouter();
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+
+  useEffect(() => {
+    if (params.id) {
+      fetch(`/api/task/${params.id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setTitle(data.title);
+        setDescription(data.description);
+      });
+    }
+  }, [params]);
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    const title = event.target.title.value
-    const description = event.target.description.value
-    const res = await fetch('/api/task', {
-      method: 'POST',
-      body: JSON.stringify({ title, description }),
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    })
-    const data = await res.json();
-    console.log(data);
+    if (params.id) {
+      const res = await fetch(`/api/task/${params.id}`, {
+        method: 'PUT',
+        body: JSON.stringify({ title, description }),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      })
+    } else {
+      const res = await fetch('/api/task', {
+        method: 'POST',
+        body: JSON.stringify({ title, description }),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      })
+      const data = await res.json();
+    }
+    router.refresh();
     router.push('/')
   }
 
@@ -31,6 +53,8 @@ function NewPage() {
             className="w-full p-2 border border-gray-600 rounded-md bg-gray-900 focus:outline-none focus:border-blue-500 text-white"
             type="text"
             id="title"
+            onChange={(event) => setTitle(event.target.value)}
+            value={title}
           />
         </div>
         <div className="mb-4">
@@ -39,6 +63,8 @@ function NewPage() {
             className="w-full p-2 border border-gray-600 rounded-md bg-gray-900 focus:outline-none focus:border-blue-500 text-white"
             rows="3"
             id="description"
+            onChange={(event) => setDescription(event.target.value)}
+            value={description}
           ></textarea>
         </div>
         <button
@@ -47,6 +73,24 @@ function NewPage() {
         >
           Crear
         </button>
+       {
+        params.id && (
+          <button
+            className="bg-red-700 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-red ml-2"
+            type="button"
+            onClick={async()=>{
+            const res = await fetch(`/api/task/${params.id}`, {
+                method: 'DELETE',
+              })
+              const data = await res.json();
+              router.refresh();
+              router.push('/')
+            }}
+          >
+            Eliminar
+          </button>
+        )
+       }
       </form>
     </div>
   );
